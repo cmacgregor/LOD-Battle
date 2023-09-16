@@ -647,6 +647,7 @@ GameObject:
   m_Component:
   - component: {fileID: 634645619}
   - component: {fileID: 634645620}
+  - component: {fileID: 634645621}
   m_Layer: 0
   m_Name: BattleSystem
   m_TagString: Untagged
@@ -681,7 +682,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3670bba9ada41149b94d7f0dbe4e06c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BattleCharacterPrefab: {fileID: 7683695733839802808, guid: cff9a2718141b9548ba3e04be796086f, type: 3}
   PlayerPartyCanvas: {fileID: 1919332333}
   PlayerActionCanvas: {fileID: 798314188}
   AttackCommand: {fileID: 619833107}
@@ -692,7 +692,21 @@ MonoBehaviour:
   PlayerCenterCharacterStatusPanel: {fileID: 2140460606}
   PlayerLeftCharacterStatusPanel: {fileID: 320911281}
   PlayerRightCharacterStatusPanel: {fileID: 50213789}
-  battleState: 0
+  _battleState: 0
+  _battleCharacterSpawner: {fileID: 634645621}
+--- !u!114 &634645621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 634645618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 772dd7b3e0bf491459d0d0a06d315923, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BattleCharacterPrefab: {fileID: 7683695733839802808, guid: cff9a2718141b9548ba3e04be796086f, type: 3}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

@@ -47,7 +47,7 @@ public class CharacterStats
     }
 }
 
-public class PartyMemberStats : CharacterStats
+public class PlayerPartyStats
 {
     public int CurrentMagic;
     public int MaxMagic;
