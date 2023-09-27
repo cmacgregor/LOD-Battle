@@ -84,17 +84,17 @@ public class CharacterStatusPanelController : MonoBehaviour
         textmeshpro_CurrentSpiritBars.SetText(SpiritBarCount.ToString());
     }
 
-    public void Setup(string name, int currentHealth, int maxHealth, PlayerPartyStats partyMemberStats)
+    public void Setup(string characterName, PlayerPartyStats partyMemberStats)
     {
-        PortraitSprite = Resources.Load<Sprite>($"BattleSprites\\{name}");
-        this.CharacterName = name;
-        CurrentHealth = currentHealth;
-        MaxHealth = maxHealth;
+        PortraitSprite = Resources.Load<Sprite>($"BattleSprites\\{characterName}");
+        CharacterName = characterName;
+        CurrentHealth = partyMemberStats.CurrentHealth;
+        MaxHealth = partyMemberStats.MaxHealth;
         CurrentMagic = partyMemberStats.CurrentMagic;
         MaxMagic = partyMemberStats.MaxMagic;
-        CurrentSpiritBarProgress = partyMemberStats.currentSpirit;
-        SpiritBarCount = partyMemberStats.currentSpiritBars;
-        MaxSpiritBars = partyMemberStats.maxSpiritBars;
+        CurrentSpiritBarProgress = partyMemberStats.CurrentSpirit;
+        SpiritBarCount = partyMemberStats.CurrentSpiritBars;
+        MaxSpiritBars = partyMemberStats.MaxSpiritBars;
 
         SetSpiritBarState(CurrentSpiritBarProgress, SpiritBarCount);
     }

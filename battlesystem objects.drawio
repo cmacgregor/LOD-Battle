@@ -1,0 +1,43 @@
+<mxfile host="app.diagrams.net" modified="2023-09-27T19:54:42.565Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36" etag="1zrRjBxc0VdsKDVhAbFu" version="21.6.9" type="device">
+  <diagram name="Page-1" id="PSaT3VGjxTsCnMs0k01M">
+    <mxGraphModel dx="1418" dy="767" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="xKv57o-tPBkpLvAL-1vC-1" value="BattleSystem" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="160" y="260" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="xKv57o-tPBkpLvAL-1vC-2" value="Camera" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="465" y="260" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="xKv57o-tPBkpLvAL-1vC-10" value="Responsible for determining battle state &lt;br&gt;and taking player input" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="85" y="350" width="230" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="xKv57o-tPBkpLvAL-1vC-11" value="I don&#39;t like the &lt;br&gt;responsibility &lt;br&gt;descriptions &lt;br&gt;have &quot;ands&quot; in them" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="530" y="50" width="200" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="xKv57o-tPBkpLvAL-1vC-12" value="Battle Character Prefab" style="rounded=0;whiteSpace=wrap;html=1;labelPosition=center;verticalLabelPosition=top;align=center;verticalAlign=bottom;" vertex="1" parent="1">
+          <mxGeometry x="150" y="490" width="320" height="270" as="geometry" />
+        </mxCell>
+        <mxCell id="xKv57o-tPBkpLvAL-1vC-13" value="Selection Indicator" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="180" y="510" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="xKv57o-tPBkpLvAL-1vC-14" value="Attack Point" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="510" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="xKv57o-tPBkpLvAL-1vC-15" value="Character Model" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="180" y="590" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="xKv57o-tPBkpLvAL-1vC-16" value="Animation Tree" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="590" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="xKv57o-tPBkpLvAL-1vC-17" value="Battle Stats" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="180" y="670" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="xKv57o-tPBkpLvAL-1vC-18" value="Status" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="670" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -49,31 +48,43 @@ public class BattleSystem : MonoBehaviour
     public GameObject PlayerCenterCharacterStatusPanel;
     public GameObject PlayerLeftCharacterStatusPanel;
     public GameObject PlayerRightCharacterStatusPanel;
+    public BattleCamera _battleCamera;
 
     public BattleState _battleState = BattleState.Waiting;
     public BattleResult _battleResult = BattleResult.None;
 
-    public Guid _actingCharacterId;
-
-    public BattleSystemDataContext _battleSystemDataContext;
     public BattleCharacterSpawner _battleCharacterSpawner;
 
-    public int _escapeSuccessChance; 
+    public int _escapeSuccessChance;
+    public bool isBossEncounter;
+
+    public Guid _actingCharacterId;
+    private Dictionary<Guid, int> TurnPriorities = new Dictionary<Guid, int>();
+    private const int TURN_THRESHOLD = 217;
+
+    private IList<Guid> PlayerPartyIds = new List<Guid>();
+    private IList<Guid> EnemyPartyIds = new List<Guid>();
+
+    private Dictionary<Guid, PlayerMemberBattleCharacter> PlayerCharacters = new Dictionary<Guid, PlayerMemberBattleCharacter>();
+    private Dictionary<Guid, BattleCharacter> EnemyCharacters = new Dictionary<Guid, BattleCharacter>();
+
+    public Dictionary<Guid, CharacterStatusPanelController> PartyStatusPanels = new Dictionary<Guid, CharacterStatusPanelController>();
+
 
     void Start()
     {
         //these should be passed in
         var _playerParty = CreateParty();
         var _enemies = CreateEnemyParty();
+        isBossEncounter = false;
 
-        _battleCharacterSpawner = GetComponent<BattleCharacterSpawner>();
-        _battleSystemDataContext = CreateBattleSystemDataContext(_playerParty, _enemies);
+        SetupCharacters(_playerParty, _enemies);
 
         HidePlayerUI();
 
         PlayBattleIntro();
 
-        _battleSystemDataContext.UpdateCombatantTurnPriorites(_actingCharacterId);
+        UpdateCombatantTurnPriorites(_actingCharacterId);
 
         _battleState = BattleState.NewTurn;
     }
@@ -107,10 +118,14 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-    private BattleSystemDataContext CreateBattleSystemDataContext(IEnumerable<PartyMemberBattleCharacter> playerParty, IEnumerable<EnemyBattleCharacter> enemies)
+    private void SetupCharacters(IEnumerable<BattleCharacterDTO> playerParty, IEnumerable<BattleCharacterDTO> enemies)
     {
-        var battleSystemDataContext = new BattleSystemDataContext();
+        CreatePlayerParty(playerParty);
+        CreateEnemies(enemies);
+    }
 
+    private void CreatePlayerParty(IEnumerable<BattleCharacterDTO> playerParty)
+    {
         //TODO: find a better way of handling getting these items mapped to party members
         var playerPartyStatusPanels = new List<CharacterStatusPanelController>
         {
@@ -119,62 +134,61 @@ public class BattleSystem : MonoBehaviour
             PlayerRightCharacterStatusPanel.GetComponent<CharacterStatusPanelController>()
         };
 
-        var playerPartyObjects = _battleCharacterSpawner.SpawnCharacterLine(playerParty.Select(e => new Tuple<Guid, string>(e.Id, e.ModelName)).ToList(), false);
-        int characterNumber = 0;
-
+        var characterNumber = 0;
+        var verticalOffset = -5;
+        var horizontalOffset = -5;
         foreach (var partyMember in playerParty)
         {
-            playerPartyStatusPanels[characterNumber].Setup(partyMember.Name, partyMember.CombatStats.CurrentHealth, partyMember.CombatStats.MaxHealth, partyMember.PartyStats);
+            playerPartyStatusPanels[characterNumber].Setup(partyMember.Name, (PlayerPartyStats)partyMember.Stats);
 
-            battleSystemDataContext.PlayerPartyIds.Add(partyMember.Id);
-            battleSystemDataContext.PartyStatusPanels.Add(partyMember.Id, playerPartyStatusPanels[characterNumber]);
-            battleSystemDataContext.TurnPriorities.Add(partyMember.Id, 0);
-            battleSystemDataContext.BattleCharacters.Add(partyMember.Id, partyMember);
-            battleSystemDataContext.CharacterGameObjects.Add(partyMember.Id, playerPartyObjects[partyMember.Id]);
-            battleSystemDataContext.CharacterSelectionIndicators.Add(partyMember.Id, playerPartyObjects[partyMember.Id].GetComponentInChildren<CharacterSelectionIndicator>());
-            battleSystemDataContext.SetCharacterHealthIndicatorColor(partyMember.Id);
+            var partyMemberGameObject = _battleCharacterSpawner.SpawnCharacter(horizontalOffset, verticalOffset, false);
+            var partyMemberBattleCharacter = partyMemberGameObject.GetComponent<PlayerMemberBattleCharacter>();
+            partyMemberBattleCharacter.SetupCharacter(partyMember.Id, partyMember.Stats, partyMember.Element, partyMember.ModelName);
+            PlayerCharacters.Add(partyMember.Id, partyMemberBattleCharacter);
 
+            PlayerPartyIds.Add(partyMember.Id);
+            PartyStatusPanels.Add(partyMember.Id, playerPartyStatusPanels[characterNumber]);
+            TurnPriorities.Add(partyMember.Id, 0);
+
+            horizontalOffset += 5;
             characterNumber++;
         }
+    }
 
-        var enemyObjects = _battleCharacterSpawner.SpawnCharacterLine(enemies.Select(e => new Tuple<Guid, string>(e.Id, e.ModelName)).ToList(), true);
-
+    private void CreateEnemies(IEnumerable<BattleCharacterDTO> enemies)
+    {
+        var verticalOffset = 5;
+        var horizontalOffset = -5;
         foreach (var enemy in enemies)
         {
-            battleSystemDataContext.EnemyPartyIds.Add(enemy.Id);
-            battleSystemDataContext.TurnPriorities.Add(enemy.Id, 0);
-            battleSystemDataContext.BattleCharacters.Add(enemy.Id, enemy);
-            battleSystemDataContext.CharacterGameObjects.Add(enemy.Id, enemyObjects[enemy.Id]);
-            battleSystemDataContext.CharacterSelectionIndicators.Add(enemy.Id, enemyObjects[enemy.Id].GetComponentInChildren<CharacterSelectionIndicator>());
-            battleSystemDataContext.SetCharacterHealthIndicatorColor(enemy.Id);
-        }
+            var enemyGameObject = _battleCharacterSpawner.SpawnCharacter(horizontalOffset, verticalOffset, true);
+            var enemyBattleCharacter = enemyGameObject.GetComponent<BattleCharacter>();
+            enemyBattleCharacter.SetupCharacter(enemy.Id, enemy.Stats, enemy.Element, enemy.ModelName);
 
-        return battleSystemDataContext;
+            EnemyCharacters.Add(enemy.Id, enemyBattleCharacter);
+            EnemyPartyIds.Add(enemy.Id);
+            TurnPriorities.Add(enemy.Id, 0);
+
+            horizontalOffset += 5;
+        }
     }
 
     private void PlayBattleIntro()
     {
-        //TODO: if this is a boss battle play boss battle intro. Otherwise pick random chamera pan
-        StartCoroutine(PanCamera());
-    }
-
-    private IEnumerator PanCamera()
-    {
-        //TODO: Pan camera around and then show UI
-        //  pan camera around
-        //  put script on main camera that pans it around based on enum passed in
-        //  call that here based on the type of panning desired before the battle
-        //  wait for the amount of time (frames?) the camera animation will take
-        yield return new WaitForSeconds(2f);
+        if(isBossEncounter)
+        {
+            StartCoroutine(_battleCamera.BossIntroPan());
+        }
+        StartCoroutine(_battleCamera.BattleIntroPan());
     }
 
     private BattleState DetermineNextTurn()
     {
-        _actingCharacterId = _battleSystemDataContext.GetHighestTPCharacterId();
-        _battleSystemDataContext.UpdateCombatantTurnPriorites(_actingCharacterId);
+        _actingCharacterId = GetHighestTPCharacterId();
+        UpdateCombatantTurnPriorites(_actingCharacterId);
 
         var returnState = BattleState.EnemyTurn;
-        if (_battleSystemDataContext.IsPartyMember(_actingCharacterId))
+        if (PlayerPartyIds.Contains(_actingCharacterId))
         {
             returnState = BattleState.PlayerTurn;
         }
@@ -182,19 +196,42 @@ public class BattleSystem : MonoBehaviour
         return returnState;
     }
 
+    private Guid GetHighestTPCharacterId()
+    {
+        return TurnPriorities.Aggregate((tp1, tp2) => tp1.Value > tp2.Value ? tp1 : tp2).Key;
+    }
+
+    private void UpdateCombatantTurnPriorites(Guid turnCharacterId)
+    {
+        foreach (var id in TurnPriorities.Keys.ToList())
+        {
+            if (id == turnCharacterId)
+            {
+                TurnPriorities[id] = Math.Max(0, TurnPriorities[id] - TURN_THRESHOLD);
+            }
+            else
+            {
+                var characterSpeed = PlayerCharacters.Keys.Contains(id) ? PlayerCharacters[id].Speed : EnemyCharacters[id].Speed;
+                var lowRoll = (int)(characterSpeed - (characterSpeed * 0.1));
+                var highRoll = (int)(characterSpeed + (characterSpeed * 0.1));
+                TurnPriorities[id] += (int)Random.Range(lowRoll, highRoll);
+            }
+        }
+    }
+
     private void TakeEnemyTurn(Guid actingCharacterId)
     {
         //TODO: Create and apply enemy UI
-        Debug.Log($"Enemey Turn Taken with {_battleSystemDataContext.BattleCharacters[actingCharacterId].Name}");
+        Debug.Log($"Enemey Turn Taken with {EnemyCharacters[actingCharacterId].Name}");
     }
 
     private void PlayerTurn(Guid actingCharacterId)
     {
-        Debug.Log($"Player turn with {_battleSystemDataContext.BattleCharacters[actingCharacterId].Name}");
+        Debug.Log($"Player turn with {PlayerCharacters[actingCharacterId].Name}");
 
-        _battleSystemDataContext.BattleCharacters[actingCharacterId].ApplyPreTurnStatusEffects();
+        PlayerCharacters[actingCharacterId].ApplyPreTurnStatusEffects();
         
-        if(_battleSystemDataContext.BattleCharacters[actingCharacterId].StatusAilment == StatusAilments.Confusion)
+        if(PlayerCharacters[actingCharacterId].StatusAilment == StatusAilments.Confusion)
         {
             //TODO: Select a random action 
             //  Attack random target (allies included)
@@ -210,7 +247,7 @@ public class BattleSystem : MonoBehaviour
         //change any action elements based upon character selection or state
         SetupPlayerActionsForPartyMember(actingCharacterId);
 
-        _battleSystemDataContext.BattleCharacters[actingCharacterId].ApplyPreTurnStatusEffects();
+        PlayerCharacters[actingCharacterId].ApplyPreTurnStatusEffects();
 
         ShowPlayerUI();
     }
@@ -221,7 +258,7 @@ public class BattleSystem : MonoBehaviour
 
         //TODO: Show special if all players spirit bars are maxed
 
-        if (_battleSystemDataContext.BattleCharacters[actingCharacterId].StatusAilment == StatusAilments.ArmBlock)
+        if (PlayerCharacters[actingCharacterId].StatusAilment == StatusAilments.ArmBlock)
         {
             //TODO: Apply ArmBlocking status
         }
@@ -271,19 +308,34 @@ public class BattleSystem : MonoBehaviour
 
     public void OnPlayerAttackButton()
     {
-        _battleSystemDataContext.CharacterAttacks(_actingCharacterId);
+        //TODO: Perform targe selection
+        //TODO: check for confusion to change target list
+        var targets = PlayerPartyIds.Contains(_actingCharacterId) 
+            ? PlayerPartyIds : EnemyPartyIds;
+        var selectedTarget = StartCoroutine(SingleTargetSelect(targets));
+
         _battleState = BattleState.NewTurn;
+    }
+
+    private IEnumerator<Guid> SingleTargetSelect(IList<Guid> possibleTargets)
+    {
+        //TODO: Pan camera to current target
+        yield return possibleTargets.First();
     }
 
     public void OnPlayerDefendButton()
     {
-        _battleSystemDataContext.CharacterDefends(_actingCharacterId);
+        Debug.Log($"Defending with {PlayerCharacters[_actingCharacterId].Name}");
+
+        PlayerCharacters[_actingCharacterId].Defend();
+        PartyStatusPanels[_actingCharacterId].CurrentHealth = PlayerCharacters[_actingCharacterId].CurrentHealth;
+
         _battleState = BattleState.NewTurn;
     }
 
     public void OnPlayerItemButton()
     {
-        Debug.Log($"Using Item with {_battleSystemDataContext.BattleCharacters[_actingCharacterId].Name}");
+        Debug.Log($"Using Item with {PlayerCharacters[_actingCharacterId].Name}");
 
         //TODO: Create item selection, target selection, and application workflow
 
@@ -294,7 +346,7 @@ public class BattleSystem : MonoBehaviour
     {
         HidePlayerUI();
 
-        Debug.Log($"Escaping with {_battleSystemDataContext.BattleCharacters[_actingCharacterId].Name}");
+        Debug.Log($"Escaping with {PlayerCharacters[_actingCharacterId].Name}");
 
         if(CalculateEscapeSuccess(_escapeSuccessChance))
         {
@@ -316,16 +368,15 @@ public class BattleSystem : MonoBehaviour
         return Random.Range(0, 100) > 50;
     }
 
-    private IEnumerable<PartyMemberBattleCharacter> CreateParty()
+    private IEnumerable<BattleCharacterDTO> CreateParty()
     {
-        return new List<PartyMemberBattleCharacter>
+        return new List<BattleCharacterDTO>
         {
-            new PartyMemberBattleCharacter() {
+            new BattleCharacterDTO() {
                 Id = Guid.NewGuid(),
                 Name = "Dart",
                 ModelName = "dart_model",
-                CombatStats = new CharacterStats()
-                {
+                Stats= new PlayerPartyStats(){
                     CurrentHealth = 1,
                     MaxHealth = 30,
                     Attack = 2,
@@ -333,21 +384,19 @@ public class BattleSystem : MonoBehaviour
                     MagicAttack = 3,
                     MagicDefense = 4,
                     Speed = 50,
-                },
-                PartyStats= new PlayerPartyStats(){
                     CurrentMagic = 0,
                     MaxMagic = 10,
-                    currentSpirit = 0,
-                    currentSpiritBars = 0,
-                    maxSpiritBars = 1,
-                }
+                    CurrentSpirit = 0,
+                    CurrentSpiritBars = 0,
+                    MaxSpiritBars = 1,
+                },               
+                Element = ElementAlignment.Fire,
             },
-            new PartyMemberBattleCharacter() {
+            new BattleCharacterDTO() {
                 Id = Guid.NewGuid(),
                 Name = "Rose",
                 ModelName = "rose_model",
-                CombatStats = new CharacterStats()
-                {
+                Stats = new PlayerPartyStats(){
                     CurrentHealth = 21,
                     MaxHealth = 21,
                     Attack = 3,
@@ -355,22 +404,20 @@ public class BattleSystem : MonoBehaviour
                     MagicAttack = 6,
                     MagicDefense = 5,
                     Speed = 55,
-                },
-                PartyStats = new PlayerPartyStats(){
                     CurrentMagic = 10,
                     MaxMagic = 10,
-                    currentSpirit = 0,
-                    currentSpiritBars = 1,
-                    maxSpiritBars = 1,
-                }
+                    CurrentSpirit = 0,
+                    CurrentSpiritBars = 1,
+                    MaxSpiritBars = 1,
+                },
+                Element = ElementAlignment.Darkness,
             },
-            new PartyMemberBattleCharacter()
+            new BattleCharacterDTO()
             {
                 Id = Guid.NewGuid(),
                 Name = "Meru",
                 ModelName = "meru_model",
-                CombatStats = new CharacterStats()
-                {
+                Stats = new PlayerPartyStats(){
                     CurrentHealth = 18,
                     MaxHealth = 18,
                     Attack = 2,
@@ -378,27 +425,27 @@ public class BattleSystem : MonoBehaviour
                     MagicAttack = 3,
                     MagicDefense = 4,
                     Speed = 70,
-                },
-                PartyStats = new PlayerPartyStats(){
                     CurrentMagic = 10,
                     MaxMagic = 10,
-                    currentSpirit = 0,
-                    currentSpiritBars = 1,
-                    maxSpiritBars = 1,
+                    CurrentSpirit = 0,
+                    CurrentSpiritBars = 1,
+                    MaxSpiritBars = 1,
                 },
+                Element = ElementAlignment.Water,
+
             }
         };
     }
 
-    private IEnumerable<EnemyBattleCharacter> CreateEnemyParty()
+    private IEnumerable<BattleCharacterDTO> CreateEnemyParty()
     {
-        return new List<EnemyBattleCharacter>
+        return new List<BattleCharacterDTO>
         {
-            new EnemyBattleCharacter() {
+            new BattleCharacterDTO() {
                 Id = Guid.NewGuid(),
                 Name = "Assassin Cock",
                 ModelName = "assassincock_model",
-                CombatStats = new CharacterStats()
+                Stats = new CharacterBattleStats()
                 {
                     CurrentHealth = 3,
                     MaxHealth = 3,
@@ -407,21 +454,14 @@ public class BattleSystem : MonoBehaviour
                     MagicAttack = 3,
                     MagicDefense = 120,
                     Speed = 50,
-                    Element = ElementAlignment.Wind,
                 },
-                CanCounterAttack = true,
-                ExperienceReward = 5,
-                GoldReward = 6,
-                ItemDrops = new Dictionary<string, int>()
-                {
-                    { "Healing Potion", 10 }
-                }
+                Element = ElementAlignment.Wind,
             },
-            new EnemyBattleCharacter() {
+            new BattleCharacterDTO() {
                 Id = Guid.NewGuid(),
                 Name = "Berserk Mouse",
                 ModelName = "berserkmouse_model",
-                CombatStats = new CharacterStats()
+                Stats = new CharacterBattleStats()
                 {
                     CurrentHealth = 2,
                     MaxHealth = 2,
@@ -430,21 +470,15 @@ public class BattleSystem : MonoBehaviour
                     MagicAttack = 2,
                     MagicDefense = 120,
                     Speed = 50,
-                    Element = ElementAlignment.Darkness,
                 },
-                CanCounterAttack = true,
-                ExperienceReward = 3,
-                GoldReward = 3,
-                ItemDrops = new Dictionary<string, int>()
-                {
-                    {"Healing Potion", 10 }
-                }
+                Element = ElementAlignment.Darkness
+
             },
-            new EnemyBattleCharacter() {
+            new BattleCharacterDTO() {
                 Id = Guid.NewGuid(),
                 Name = "Trent",
                 ModelName = "trent_model",
-                CombatStats = new CharacterStats()
+                Stats = new CharacterBattleStats()
                 {
                     CurrentHealth = 5,
                     MaxHealth = 5,
@@ -453,15 +487,8 @@ public class BattleSystem : MonoBehaviour
                     MagicAttack = 3,
                     MagicDefense = 120,
                     Speed = 30,
-                    Element = ElementAlignment.Earth,
                 },
-                CanCounterAttack = true,
-                ExperienceReward = 4,
-                GoldReward = 9,
-                ItemDrops = new Dictionary<string, int>()
-                {
-                    {"Pellet", 10 }
-                }
+                Element = ElementAlignment.Earth,
             }
         };
     }
