@@ -692,7 +692,7 @@ MonoBehaviour:
   PlayerCenterCharacterStatusPanel: {fileID: 2140460606}
   PlayerLeftCharacterStatusPanel: {fileID: 320911281}
   PlayerRightCharacterStatusPanel: {fileID: 50213789}
-  _battleCamera: {fileID: 0}
+  _battleCamera: {fileID: 942074333}
   _battleState: 0
   _battleResult: 0
   _battleCharacterSpawner: {fileID: 634645621}

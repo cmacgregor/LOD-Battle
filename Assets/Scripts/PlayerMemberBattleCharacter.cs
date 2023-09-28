@@ -9,9 +9,10 @@ public class PlayerMemberBattleCharacter : BattleCharacter
     public int CurrentSpiritBars;
     public int MaxSpiritBars;
 
-    public void SetupCharacter(Guid characterId, PlayerPartyStats stats, ElementAlignment element, string modelName)
+    public void SetupCharacter(Guid characterId, string name, PlayerPartyStats stats, ElementAlignment element, string modelName)
     {
         Id = characterId;
+        Name = name;
         SetStats(stats);
         SetModel(modelName);
         Element = element;

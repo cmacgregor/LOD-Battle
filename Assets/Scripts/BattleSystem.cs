@@ -143,7 +143,7 @@ public class BattleSystem : MonoBehaviour
 
             var partyMemberGameObject = _battleCharacterSpawner.SpawnCharacter(horizontalOffset, verticalOffset, false);
             var partyMemberBattleCharacter = partyMemberGameObject.GetComponent<PlayerMemberBattleCharacter>();
-            partyMemberBattleCharacter.SetupCharacter(partyMember.Id, partyMember.Stats, partyMember.Element, partyMember.ModelName);
+            partyMemberBattleCharacter.SetupCharacter(partyMember.Id, partyMember.Name, partyMember.Stats, partyMember.Element, partyMember.ModelName);
             PlayerCharacters.Add(partyMember.Id, partyMemberBattleCharacter);
 
             PlayerPartyIds.Add(partyMember.Id);
@@ -163,7 +163,7 @@ public class BattleSystem : MonoBehaviour
         {
             var enemyGameObject = _battleCharacterSpawner.SpawnCharacter(horizontalOffset, verticalOffset, true);
             var enemyBattleCharacter = enemyGameObject.GetComponent<BattleCharacter>();
-            enemyBattleCharacter.SetupCharacter(enemy.Id, enemy.Stats, enemy.Element, enemy.ModelName);
+            enemyBattleCharacter.SetupCharacter(enemy.Id, enemy.Name, enemy.Stats, enemy.Element, enemy.ModelName);
 
             EnemyCharacters.Add(enemy.Id, enemyBattleCharacter);
             EnemyPartyIds.Add(enemy.Id);

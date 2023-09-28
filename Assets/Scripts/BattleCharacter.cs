@@ -30,9 +30,10 @@ public class BattleCharacter : MonoBehaviour
     public bool Downed;
     public bool Defending;
 
-    public void SetupCharacter(Guid characterId, CharacterBattleStats stats, ElementAlignment element, string modelName)
+    public void SetupCharacter(Guid characterId, string name, CharacterBattleStats stats, ElementAlignment element, string modelName)
     {
         Id = characterId;
+        Name = name;
         SetStats(stats);
         SetModel(modelName);
         Element = element;
@@ -71,8 +72,16 @@ public class BattleCharacter : MonoBehaviour
     public void Defend()
     {
         Defending = true;
-        var postGuardHealth = CurrentHealth + (MaxHealth * 0.1);
-        Math.Clamp(CurrentHealth, postGuardHealth, MaxHealth);
+        var postGuardHealth = CurrentHealth + (int)(MaxHealth * 0.1);
+        if(postGuardHealth >= MaxHealth)
+        {
+            CurrentHealth = MaxHealth;
+        }
+        else
+        {
+            CurrentHealth = postGuardHealth;
+        }
+
         Indicator.SetIndicatorColor((decimal)CurrentHealth, (decimal)MaxHealth);
         //TODO: Play defense animation
     }
