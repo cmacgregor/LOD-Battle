@@ -1,14 +1,13 @@
 using System;
+using UnityEditor.Animations;
 using UnityEngine;
 
-public class BattleCharacter : MonoBehaviour
+public class BattleCharacter : MonoBehaviour 
 {
     public Guid Id;
     public string Name;
 
     public CharacterSelectionIndicator Indicator;
-    //TODO: add animation tree reference
-    public GameObject CharacterModel;
     public GameObject AttackPoint;
 
     public int CurrentHealth;
@@ -30,13 +29,24 @@ public class BattleCharacter : MonoBehaviour
     public bool Downed;
     public bool Defending;
 
-    public void SetupCharacter(Guid characterId, string name, CharacterBattleStats stats, ElementAlignment element, string modelName)
+    public AnimatorController AnimatorController;
+    public AnimatorOverrideController AnimatorOverride;
+    public GameObject CharacterModel;
+
+    public void SetupCharacter(
+        Guid characterId, 
+        string name, 
+        CharacterBattleStats stats, 
+        ElementAlignment element, 
+        string modelName)
     {
         Id = characterId;
         Name = name;
         SetStats(stats);
         SetModel(modelName);
+        SetAnimationController(modelName);
         Element = element;
+        Indicator.Hide();
     }
 
     public void SetStats(CharacterBattleStats stats)
@@ -52,24 +62,69 @@ public class BattleCharacter : MonoBehaviour
         MagicHitPercentage = stats.MagicHitPercentage;
         AttackAvoidPercentage = stats.AttackAvoidPercentage;
 
-        Indicator.SetIndicatorColor((decimal)CurrentHealth, (decimal)MaxHealth);
+        Indicator.SetIndicatorColor(CurrentHealth, MaxHealth);
     }
 
-    public void SetModel(string modelName)
+    public virtual void SetModel(string modelName)
     {
-        Debug.Log($"Setting model to {modelName}");
-        //TODO: Set model
+        modelName = modelName.ToLower();
+        CharacterModel = Instantiate(Resources.Load($"Characters/{modelName}/{modelName}_model"),
+            new Vector3(gameObject.transform.position.x, 0, gameObject.transform.position.z),
+            Quaternion.Euler(-90f, 180, 0),
+            gameObject.transform) as GameObject;
+        CharacterModel.name = "CharacterModel";
     }
 
-
-    public void AttackCharacter(Vector3 attackPosition)
+    public virtual void SetAnimationController(string modelName)
     {
+        modelName = modelName.ToLower();
+
+        Animator animator = CharacterModel.AddComponent<Animator>();
+
+        AnimatorController = Resources.Load($"Characters/enemy_animationController") as AnimatorController;
+        animator.runtimeAnimatorController = AnimatorController;
+
+        AnimatorOverride = new AnimatorOverrideController(AnimatorController);
+        AnimatorOverride.name = $"{modelName}_animatorOverride";
+        AnimatorOverride.runtimeAnimatorController = AnimatorController;
+
+        animator.runtimeAnimatorController = AnimatorOverride;
+
+        var idleStateAnimationClip = Resources.Load($"Characters/{modelName}/{modelName}_idle") as AnimationClip;
+
+        AnimatorOverride["Idle"] = idleStateAnimationClip;
+        //List<KeyValuePair<AnimationClip, AnimationClip>> overrideClips = new List<KeyValuePair<AnimationClip, AnimationClip>>(AnimatorOverride.overridesCount)
+        //{
+        //    new KeyValuePair<AnimationClip, AnimationClip>(, idleStateAnimationClip)
+        //};
+
+        //AnimatorOverride.GetOverrides(overrideClips);
+    }
+
+    public void MoveToAttack(Vector3 attackPosition)
+    {
+        Debug.Log($"{Name} moving to attack character at {attackPosition}");
+
         //move to attack position
-
-        //perform attack
+        CharacterModel.transform.position = attackPosition;
     }
 
-    public void Defend()
+    public Vector3 GetAttackPointPosition()
+    {
+        return AttackPoint.transform.position;
+    }
+
+    public void PlayAttackAnimation()
+    {
+        Debug.Log($"{Name} playing attack animation");
+    }
+
+    public void ReturnToDefaultPosition()
+    {
+        CharacterModel.transform.position = Vector3.zero;
+    }
+
+    public virtual void Defend()
     {
         Defending = true;
         var postGuardHealth = CurrentHealth + (int)(MaxHealth * 0.1);
@@ -139,5 +194,4 @@ public class BattleCharacter : MonoBehaviour
         int poisonDamage = (int)(MaxHealth * 0.1);
         TakeDamage(poisonDamage);
     }
-
 }

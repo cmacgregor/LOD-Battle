@@ -183,7 +183,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: 
   Indicator: {fileID: 5997269875376003117}
-  CharacterModel: {fileID: 8753653059351558619}
   AttackPoint: {fileID: 1419757050400060663}
   CurrentHealth: 0
   MaxHealth: 0
@@ -201,6 +200,7 @@ MonoBehaviour:
   StatusTurns: 0
   Downed: 0
   Defending: 0
+  AnimatorController: {fileID: 0}
 --- !u!1 &8666862782510383245
 GameObject:
   m_ObjectHideFlags: 0
@@ -324,12 +324,12 @@ GameObject:
   - component: {fileID: 4612024866926869057}
   - component: {fileID: 8748985955197543480}
   m_Layer: 0
-  m_Name: CharacterModel
+  m_Name: ModelPlaceholder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6510209559595892249
 Transform:
   m_ObjectHideFlags: 0

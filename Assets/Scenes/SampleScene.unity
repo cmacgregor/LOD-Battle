@@ -490,11 +490,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 214c692de8c910f40b6d75c765dc18ef, type: 3}
---- !u!1 &509777205 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6245258918290062331, guid: 214c692de8c910f40b6d75c765dc18ef, type: 3}
-  m_PrefabInstance: {fileID: 597614907}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &597614907
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -632,11 +627,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 214c692de8c910f40b6d75c765dc18ef, type: 3}
---- !u!1 &619833107 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6245258918290062331, guid: 214c692de8c910f40b6d75c765dc18ef, type: 3}
-  m_PrefabInstance: {fileID: 1311415509}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &634645618
 GameObject:
   m_ObjectHideFlags: 0
@@ -684,20 +674,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerPartyCanvas: {fileID: 1919332333}
   PlayerActionCanvas: {fileID: 798314188}
-  AttackCommand: {fileID: 619833107}
-  DefendCommand: {fileID: 990320313}
-  ItemCommand: {fileID: 509777205}
-  EscapeCommand: {fileID: 1637712567}
-  DragoonTransformCommand: {fileID: 1430808070}
   PlayerCenterCharacterStatusPanel: {fileID: 2140460606}
   PlayerLeftCharacterStatusPanel: {fileID: 320911281}
   PlayerRightCharacterStatusPanel: {fileID: 50213789}
-  _battleCamera: {fileID: 942074333}
-  _battleState: 0
-  _battleResult: 0
-  _battleCharacterSpawner: {fileID: 634645621}
-  _escapeSuccessChance: 0
-  isBossEncounter: 0
+  Camera: {fileID: 942074333}
+  CharacterSpawner: {fileID: 634645621}
+  EscapeSuccessChance: 0
+  IsBossEncounter: 0
 --- !u!114 &634645621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1069,7 +1052,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.1
   far clip plane: 100
   field of view: 60
   orthographic: 0
@@ -1124,11 +1107,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f370aa35193c7c4896c538c4e931f4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &990320313 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6245258918290062331, guid: 214c692de8c910f40b6d75c765dc18ef, type: 3}
-  m_PrefabInstance: {fileID: 2087045834}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1106203442
 GameObject:
   m_ObjectHideFlags: 0
@@ -1649,7 +1627,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1596929113579303077, guid: 214c692de8c910f40b6d75c765dc18ef, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PlayerAttackButton
+      value: OnPlayerAttackButton
       objectReference: {fileID: 0}
     - target: {fileID: 1596929113579303077, guid: 214c692de8c910f40b6d75c765dc18ef, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -1706,16 +1684,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1430808070 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6245258918290062331, guid: 214c692de8c910f40b6d75c765dc18ef, type: 3}
-  m_PrefabInstance: {fileID: 832224750}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1637712567 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6245258918290062331, guid: 214c692de8c910f40b6d75c765dc18ef, type: 3}
-  m_PrefabInstance: {fileID: 1159711851}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1655306665 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2627355377004643604, guid: bab1a4eadbb8ac7428b25917955ede7b, type: 3}

@@ -18,16 +18,28 @@ public class BattleCamera : MonoBehaviour
         //TODO: implement camera target focus
     }
 
-    public IEnumerator BattleIntroPan()
+    public IEnumerator PerformBattleIntro(bool isBossEncounter)
     {
         //TODO: Pan camera around and then show UI
         //  pan camera around
         //  wait for the amount of time (frames?) the camera animation will take
+
+        if (isBossEncounter)
+        {
+            return BossIntroPan();
+        }
+        else {
+            return BattleIntro();
+        }
+    }
+
+    private IEnumerator BattleIntro()
+    {
         Debug.Log("Battle intro pan");
         yield return new WaitForSeconds(2f);
     }
 
-    public IEnumerator BossIntroPan()
+    private IEnumerator BossIntroPan()
     {
         //TODO: Pan across each character then pan across the bost
         //  wait for the amount of time (frames?) the camera animation will take

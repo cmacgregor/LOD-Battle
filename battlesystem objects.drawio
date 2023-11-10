@@ -1,41 +1,226 @@
-<mxfile host="app.diagrams.net" modified="2023-09-27T19:54:42.565Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36" etag="1zrRjBxc0VdsKDVhAbFu" version="21.6.9" type="device">
+<mxfile host="app.diagrams.net" modified="2023-10-11T20:11:52.515Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36" etag="iPjds8-sR5NCMDGUEcAP" version="22.0.4" type="device" pages="3">
   <diagram name="Page-1" id="PSaT3VGjxTsCnMs0k01M">
-    <mxGraphModel dx="1418" dy="767" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1434" dy="798" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="xKv57o-tPBkpLvAL-1vC-1" value="BattleSystem" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="xKv57o-tPBkpLvAL-1vC-1" value="BattleSystem" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
           <mxGeometry x="160" y="260" width="80" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="xKv57o-tPBkpLvAL-1vC-2" value="Camera" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+        <mxCell id="xKv57o-tPBkpLvAL-1vC-2" value="Camera" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
           <mxGeometry x="465" y="260" width="80" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="xKv57o-tPBkpLvAL-1vC-10" value="Responsible for determining battle state &lt;br&gt;and taking player input" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+        <mxCell id="xKv57o-tPBkpLvAL-1vC-10" value="Responsible for determining battle state &lt;br&gt;and taking player input" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
           <mxGeometry x="85" y="350" width="230" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="xKv57o-tPBkpLvAL-1vC-11" value="I don&#39;t like the &lt;br&gt;responsibility &lt;br&gt;descriptions &lt;br&gt;have &quot;ands&quot; in them" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="xKv57o-tPBkpLvAL-1vC-11" value="I don&#39;t like the &lt;br&gt;responsibility &lt;br&gt;descriptions &lt;br&gt;have &quot;ands&quot; in them" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="530" y="50" width="200" height="140" as="geometry" />
         </mxCell>
-        <mxCell id="xKv57o-tPBkpLvAL-1vC-12" value="Battle Character Prefab" style="rounded=0;whiteSpace=wrap;html=1;labelPosition=center;verticalLabelPosition=top;align=center;verticalAlign=bottom;" vertex="1" parent="1">
-          <mxGeometry x="150" y="490" width="320" height="270" as="geometry" />
+        <mxCell id="xKv57o-tPBkpLvAL-1vC-12" value="Battle Character Prefab" style="rounded=0;whiteSpace=wrap;html=1;labelPosition=center;verticalLabelPosition=top;align=center;verticalAlign=bottom;" parent="1" vertex="1">
+          <mxGeometry x="50" y="490" width="320" height="270" as="geometry" />
         </mxCell>
-        <mxCell id="xKv57o-tPBkpLvAL-1vC-13" value="Selection Indicator" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="180" y="510" width="120" height="60" as="geometry" />
+        <mxCell id="xKv57o-tPBkpLvAL-1vC-13" value="Selection Indicator" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="80" y="510" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="xKv57o-tPBkpLvAL-1vC-14" value="Attack Point" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="320" y="510" width="120" height="60" as="geometry" />
+        <mxCell id="xKv57o-tPBkpLvAL-1vC-14" value="Attack Point" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="220" y="510" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="xKv57o-tPBkpLvAL-1vC-15" value="Character Model" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="180" y="590" width="120" height="60" as="geometry" />
+        <mxCell id="xKv57o-tPBkpLvAL-1vC-15" value="Character Model" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="80" y="590" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="xKv57o-tPBkpLvAL-1vC-16" value="Animation Tree" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="320" y="590" width="120" height="60" as="geometry" />
+        <mxCell id="xKv57o-tPBkpLvAL-1vC-16" value="Animation Tree" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="220" y="590" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="xKv57o-tPBkpLvAL-1vC-17" value="Battle Stats" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="180" y="670" width="120" height="60" as="geometry" />
+        <mxCell id="xKv57o-tPBkpLvAL-1vC-17" value="Battle Stats" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="80" y="670" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="xKv57o-tPBkpLvAL-1vC-18" value="Status" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="320" y="670" width="120" height="60" as="geometry" />
+        <mxCell id="xKv57o-tPBkpLvAL-1vC-18" value="Status" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="220" y="670" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="_bfxfXqDoR6iRqXlGrPW" name="Battle State Machine">
+    <mxGraphModel dx="1434" dy="798" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="dNglWxFTYLkksuQrDj0W-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="dNglWxFTYLkksuQrDj0W-1" target="dNglWxFTYLkksuQrDj0W-2" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dNglWxFTYLkksuQrDj0W-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="dNglWxFTYLkksuQrDj0W-1" target="dNglWxFTYLkksuQrDj0W-3" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dNglWxFTYLkksuQrDj0W-1" value="Intro" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="160" y="130" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="dNglWxFTYLkksuQrDj0W-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;" parent="1" source="dNglWxFTYLkksuQrDj0W-2" target="dNglWxFTYLkksuQrDj0W-4" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dNglWxFTYLkksuQrDj0W-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" parent="1" source="dNglWxFTYLkksuQrDj0W-2" target="dNglWxFTYLkksuQrDj0W-6" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dNglWxFTYLkksuQrDj0W-2" value="Player Turn" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="470" y="130" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="dNglWxFTYLkksuQrDj0W-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;" parent="1" source="dNglWxFTYLkksuQrDj0W-3" target="dNglWxFTYLkksuQrDj0W-2" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dNglWxFTYLkksuQrDj0W-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" parent="1" source="dNglWxFTYLkksuQrDj0W-3" target="dNglWxFTYLkksuQrDj0W-5" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="190" y="420" />
+              <mxPoint x="510" y="420" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dNglWxFTYLkksuQrDj0W-3" value="Enemy Turn" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="160" y="300" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="dNglWxFTYLkksuQrDj0W-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;" parent="1" source="dNglWxFTYLkksuQrDj0W-4" target="dNglWxFTYLkksuQrDj0W-5" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="590" y="380" />
+              <mxPoint x="560" y="380" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dNglWxFTYLkksuQrDj0W-4" value="Fleeing" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="560" y="300" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="dNglWxFTYLkksuQrDj0W-5" value="Won" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="480" y="470" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="dNglWxFTYLkksuQrDj0W-6" value="Lost" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="230" y="470" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="dNglWxFTYLkksuQrDj0W-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" parent="1" source="dNglWxFTYLkksuQrDj0W-3" target="dNglWxFTYLkksuQrDj0W-3" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="140" y="315" />
+              <mxPoint x="140" y="345" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dNglWxFTYLkksuQrDj0W-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;" parent="1" source="dNglWxFTYLkksuQrDj0W-2" target="dNglWxFTYLkksuQrDj0W-2" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="610" y="145" />
+              <mxPoint x="610" y="175" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dNglWxFTYLkksuQrDj0W-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" parent="1" source="dNglWxFTYLkksuQrDj0W-3" target="dNglWxFTYLkksuQrDj0W-6" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="360" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="DdvulN9FD5F6LwMAe-fP" name="Battle Turn commands">
+    <mxGraphModel dx="1418" dy="593" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="aF6UM9PKRxnE01QSpGTE-11" value="DragoonBattle&lt;br&gt;Command" style="rounded=1;whiteSpace=wrap;html=1;labelPosition=center;verticalLabelPosition=top;align=center;verticalAlign=bottom;" parent="1" vertex="1">
+          <mxGeometry x="520" y="230" width="290" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="aF6UM9PKRxnE01QSpGTE-10" value="PlayerBattle&lt;br&gt;Command" style="rounded=1;whiteSpace=wrap;html=1;labelPosition=center;verticalLabelPosition=top;align=center;verticalAlign=bottom;" parent="1" vertex="1">
+          <mxGeometry x="20" y="200" width="430" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="aF6UM9PKRxnE01QSpGTE-1" value="Attack" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="38" y="210" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aF6UM9PKRxnE01QSpGTE-2" value="Defend" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="175" y="210" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aF6UM9PKRxnE01QSpGTE-3" value="Item" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="318" y="210" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aF6UM9PKRxnE01QSpGTE-4" value="Dragoon Transformation" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="175" y="280" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aF6UM9PKRxnE01QSpGTE-5" value="Escape" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="38" y="280" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aF6UM9PKRxnE01QSpGTE-6" value="Special" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="318" y="280" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="TbngzHWZBaeoW_QtridE-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" parent="1" source="aF6UM9PKRxnE01QSpGTE-7" target="aF6UM9PKRxnE01QSpGTE-10" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TbngzHWZBaeoW_QtridE-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" parent="1" source="aF6UM9PKRxnE01QSpGTE-7" target="aF6UM9PKRxnE01QSpGTE-11" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TbngzHWZBaeoW_QtridE-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" parent="1" source="aF6UM9PKRxnE01QSpGTE-7" target="aF6UM9PKRxnE01QSpGTE-12" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="425" y="180" />
+              <mxPoint x="480" y="180" />
+              <mxPoint x="480" y="440" />
+              <mxPoint x="380" y="440" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aF6UM9PKRxnE01QSpGTE-7" value="BattleCommand&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="365" y="40" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aF6UM9PKRxnE01QSpGTE-8" value="Dragoon Attack" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="538" y="250" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aF6UM9PKRxnE01QSpGTE-9" value="Dragoon Magic" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="678" y="250" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aF6UM9PKRxnE01QSpGTE-12" value="EnemyBattle Command" style="rounded=1;whiteSpace=wrap;html=1;labelPosition=center;verticalLabelPosition=top;align=center;verticalAlign=bottom;" parent="1" vertex="1">
+          <mxGeometry x="65" y="500" width="420" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="aF6UM9PKRxnE01QSpGTE-13" value="Cast" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="355" y="510" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aF6UM9PKRxnE01QSpGTE-14" value="Escape" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="215" y="510" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aF6UM9PKRxnE01QSpGTE-15" value="Attack" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="75" y="510" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="TbngzHWZBaeoW_QtridE-4" value="Move Camera" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="175" y="350" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="dP-TV6m3mha4KyL-o9W_-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="dP-TV6m3mha4KyL-o9W_-2" target="dP-TV6m3mha4KyL-o9W_-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dP-TV6m3mha4KyL-o9W_-2" value="Turn State" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="65" y="900" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="dP-TV6m3mha4KyL-o9W_-3" value="BattleCharacter" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="510" y="900" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="dP-TV6m3mha4KyL-o9W_-6" value="" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="500" y="810" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="dP-TV6m3mha4KyL-o9W_-7" value="Invoker" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="810" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="dP-TV6m3mha4KyL-o9W_-8" value="Client" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="65" y="810" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="dP-TV6m3mha4KyL-o9W_-9" value="Receives input from &lt;br&gt;the player or AI&amp;nbsp;&lt;br&gt;and calls commands" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="60" y="968" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="dP-TV6m3mha4KyL-o9W_-11" value="Controls the &lt;br&gt;instance of the character" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="495" y="973" width="150" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="dP-TV6m3mha4KyL-o9W_-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="dP-TV6m3mha4KyL-o9W_-12" target="dP-TV6m3mha4KyL-o9W_-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dP-TV6m3mha4KyL-o9W_-12" value="BattleCommand" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="900" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="dP-TV6m3mha4KyL-o9W_-13" value="Determines the actions &lt;br&gt;battle character will take" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="275" y="978" width="150" height="40" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
