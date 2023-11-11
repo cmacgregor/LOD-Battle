@@ -8,16 +8,21 @@ public class BattlePlayerTurnState : BattleBaseState
     private BattleStateManager _battleStateManager;
     private BattleCharacter _turnCharacter;
 
-    private int escapeSuccessChance = 25;
-
     private TargetSelector _targetSelector;
-    private Guid AttackTarget = Guid.Empty;
+    private Guid _attackTarget = Guid.Empty;
+
+    private ICommand _escapeCommand;
+    private ICommand _attackCommand;
 
     public override void EnterState(BattleStateManager battleStateManager)
     {
         _battleStateManager = battleStateManager;
         _turnCharacter = _battleStateManager.GetActingCharacter();
         Debug.Log($"Entering {nameof(BattlePlayerTurnState)} for {_turnCharacter.Name}");
+
+        //should probably register event actions for current character so they're just called on button presses?
+
+        _escapeCommand = new EscapeCommand(_battleStateManager);
 
         //Setup turn character player ui
         _battleStateManager.SetupPlayerActionsForPartyMember(_turnCharacter.Id);
@@ -59,9 +64,8 @@ public class BattlePlayerTurnState : BattleBaseState
     public void OnPlayerEscapeButton()
     {
         Debug.Log($"Escaping with {_turnCharacter.Name}");
-
-
-
+        //call escape command
+        _escapeCommand.Execute();
     }
 
 }

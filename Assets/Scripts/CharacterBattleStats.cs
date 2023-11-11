@@ -1,6 +1,4 @@
 
-using System;
-
 public class CharacterBattleStats
 {
     public int CurrentHealth;
@@ -21,8 +19,7 @@ public class PlayerPartyStats : CharacterBattleStats
     public int CurrentMagic;
     public int MaxMagic;
     public int CurrentSpirit;
-    public int CurrentSpiritBars;
-    public int MaxSpiritBars;
+    public int MaxSpirit;
 }
 
 public enum ElementAlignment

@@ -674,12 +674,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerPartyCanvas: {fileID: 1919332333}
   PlayerActionCanvas: {fileID: 798314188}
-  PlayerCenterCharacterStatusPanel: {fileID: 2140460606}
-  PlayerLeftCharacterStatusPanel: {fileID: 320911281}
-  PlayerRightCharacterStatusPanel: {fileID: 50213789}
   Camera: {fileID: 942074333}
   CharacterSpawner: {fileID: 634645621}
-  EscapeSuccessChance: 0
+  EscapeRate: 0
   IsBossEncounter: 0
 --- !u!114 &634645621
 MonoBehaviour:
@@ -695,6 +692,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyBattleCharacterPrefab: {fileID: 7683695733839802808, guid: 0d1f59a5c861d3b43ad147219bbe430c, type: 3}
   PartyMemberBattleCharacterPrefab: {fileID: 7683695733839802808, guid: bcb540f856b8a9744b6b78ae312fcbca, type: 3}
+  PlayerCenterCharacterStatusPanel: {fileID: 2140460606}
+  PlayerLeftCharacterStatusPanel: {fileID: 320911281}
+  PlayerRightCharacterStatusPanel: {fileID: 50213789}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

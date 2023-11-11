@@ -7,45 +7,27 @@ public class BattleCharacterSpawner : MonoBehaviour
     public GameObject EnemyBattleCharacterPrefab;
     public GameObject PartyMemberBattleCharacterPrefab;
 
-    public Dictionary<Guid, PlayerMemberBattleCharacter> PlayerCharacters = new Dictionary<Guid, PlayerMemberBattleCharacter>();
-    public Dictionary<Guid, BattleCharacter> EnemyCharacters = new Dictionary<Guid, BattleCharacter>();
+    public GameObject PlayerCenterCharacterStatusPanel;
+    public GameObject PlayerLeftCharacterStatusPanel;
+    public GameObject PlayerRightCharacterStatusPanel;
     
-    //TODO: Auto space spawns based on the number of characters instead of predefining positions
-    public GameObject SpawnCharacter(int horizontalOffset, int verticalOffset, bool isEnemy)
+    public Dictionary<Guid, PlayerMemberBattleCharacter> SetupPartyCharacters(IEnumerable<BattleCharacterDTO> playerParty)
     {
-        GameObject spawn = null;
-        
-        if (isEnemy)
+        var playerCharacters = new Dictionary<Guid, PlayerMemberBattleCharacter>();
+
+        var playerPartyStatusPanels = new List<CharacterStatusPanelController>
         {
-            spawn = Instantiate(EnemyBattleCharacterPrefab, new Vector3(horizontalOffset, 1, verticalOffset), Quaternion.identity);
-        }
-        else
-        {
-            spawn = Instantiate(PartyMemberBattleCharacterPrefab, new Vector3(horizontalOffset, 1, verticalOffset), Quaternion.Euler(0, 180f, 0));
-        }
+            PlayerLeftCharacterStatusPanel.GetComponent<CharacterStatusPanelController>(),
+            PlayerCenterCharacterStatusPanel.GetComponent<CharacterStatusPanelController>(),
+            PlayerRightCharacterStatusPanel.GetComponent<CharacterStatusPanelController>(),
+        };
 
-        return spawn;
-    }
-
-    public void SetupCharacters(IEnumerable<BattleCharacterDTO> playerParty,
-        List<CharacterStatusPanelController> playerPartyStatusPanels,
-        IEnumerable<BattleCharacterDTO> enemies)
-    {
-        CreatePlayerParty(playerParty, playerPartyStatusPanels);
-        CreateEnemies(enemies);
-    }
-
-    private void CreatePlayerParty(IEnumerable<BattleCharacterDTO> playerParty,
-        List<CharacterStatusPanelController> playerPartyStatusPanels)
-    {
         var characterNumber = 0;
         var verticalOffset = -5;
         var horizontalOffset = -5;
 
         foreach (var partyMember in playerParty)
         {
-            playerPartyStatusPanels[characterNumber].Setup(partyMember.Name, (PlayerPartyStats)partyMember.Stats);
-
             var partyMemberGameObject = SpawnCharacter(horizontalOffset, verticalOffset, false);
             var partyMemberBattleCharacter = partyMemberGameObject.GetComponent<PlayerMemberBattleCharacter>();
             partyMemberBattleCharacter.SetupCharacter(
@@ -54,16 +36,20 @@ public class BattleCharacterSpawner : MonoBehaviour
                 partyMember.Stats,
                 partyMember.Element,
                 partyMember.ModelName);
-            partyMemberBattleCharacter.SetStatusPanel(playerPartyStatusPanels[characterNumber]);
-            PlayerCharacters.Add(partyMember.Id, partyMemberBattleCharacter);
+            playerPartyStatusPanels[characterNumber].Setup(partyMemberBattleCharacter);
+
+            playerCharacters.Add(partyMember.Id, partyMemberBattleCharacter);
 
             horizontalOffset += 5;
             characterNumber++;
         }
+
+        return playerCharacters;
     }
 
-    private void CreateEnemies(IEnumerable<BattleCharacterDTO> enemies)
+    public Dictionary<Guid, BattleCharacter> SetupEnemyCharacters(IEnumerable<BattleCharacterDTO> enemies)
     {
+        var enemyCharacters = new Dictionary<Guid, BattleCharacter>();
         var verticalOffset = 5;
         var horizontalOffset = -5;
         foreach (var enemy in enemies)
@@ -76,9 +62,28 @@ public class BattleCharacterSpawner : MonoBehaviour
                 enemy.Stats,
                 enemy.Element,
                 enemy.ModelName);
-            EnemyCharacters.Add(enemy.Id, enemyBattleCharacter);
+            enemyCharacters.Add(enemy.Id, enemyBattleCharacter);
 
             horizontalOffset += 5;
         }
+
+        return enemyCharacters;
+    }
+
+    //TODO: Auto space spawns based on the number of characters instead of predefining positions
+    private GameObject SpawnCharacter(int horizontalOffset, int verticalOffset, bool isEnemy)
+    {
+        GameObject spawn = null;
+
+        if (isEnemy)
+        {
+            spawn = Instantiate(EnemyBattleCharacterPrefab, new Vector3(horizontalOffset, 1, verticalOffset), Quaternion.identity);
+        }
+        else
+        {
+            spawn = Instantiate(PartyMemberBattleCharacterPrefab, new Vector3(horizontalOffset, 1, verticalOffset), Quaternion.Euler(0, 180f, 0));
+        }
+
+        return spawn;
     }
 }

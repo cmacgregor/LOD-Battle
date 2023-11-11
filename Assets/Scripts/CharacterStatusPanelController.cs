@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,16 +17,9 @@ public class CharacterStatusPanelController : MonoBehaviour
     public GameObject SpiritBarObject;
     public GameObject SpiritBarMaxValueHighlighterObject;
 
-    public bool IsCharacterTurn;
-    public Sprite PortraitSprite;
-    public string CharacterName;
-    public int CurrentHealth;
-    public int MaxHealth;
-    public int CurrentMagic;
-    public int MaxMagic;
-    public int CurrentSpiritBarProgress;
-    public int SpiritBarCount;
-    public int MaxSpiritBars;
+    public int MaxHP;
+    public int MaxMP;
+    public int MaxSpirit;
 
     private Image image_CharacterPortraitHighlighter;
     private Image image_CharacterPortrait;
@@ -42,7 +34,6 @@ public class CharacterStatusPanelController : MonoBehaviour
     private Image image_SpiritSliderFill;
     private Image image_SpiritBarMaxHighlighter;
     
-    // Start is called before the first frame update
     void Start()
     {
         image_CharacterPortraitHighlighter = PortraitHighlighterObject.GetComponent<Image>();
@@ -67,77 +58,99 @@ public class CharacterStatusPanelController : MonoBehaviour
         image_SpiritBarMaxHighlighter = SpiritBarMaxValueHighlighterObject.GetComponent<Image>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Setup(PlayerMemberBattleCharacter character)
     {
-        image_CharacterPortraitHighlighter.enabled = IsCharacterTurn;
-        image_CharacterPortrait.sprite = PortraitSprite;
+        image_CharacterPortrait.sprite = Resources.Load<Sprite>($"BattleSprites\\{character.Name}");
+        textmeshpro_Name.SetText(character.Name);
 
-        textmeshpro_Name.SetText(CharacterName);
+        textmeshpro_CurrentHealth.SetText(character.CurrentHealth.ToString());
+        textmeshpro_MaxHealth.SetText(character.MaxHealth.ToString());
 
-        textmeshpro_CurrentHealth.SetText(CurrentHealth.ToString());
-        textmeshpro_MaxHealth.SetText(MaxHealth.ToString());
+        textmeshpro_CurrentMagic.SetText(character.CurrentMagic.ToString());
+        textmeshpro_MaxMagic.SetText(character.MaxMagic.ToString());
 
-        textmeshpro_CurrentMagic.SetText(CurrentMagic.ToString());
-        textmeshpro_MaxMagic.SetText(MaxMagic.ToString());
+        MaxSpirit = character.MaxSpirit;
 
-        textmeshpro_CurrentSpiritBars.SetText(SpiritBarCount.ToString());
+        SetSpiritBarState(character.CurrentSpirit);
+
+        //register events
+        character.onCharacterHealthChange += UpdateCurrentHealth;
+        character.onMagicUsed += UpdateCurrentMP;
+        character.onSpiritUsed += UpdateCurrentSpirit;
     }
 
-    public void Setup(string characterName, PlayerPartyStats partyMemberStats)
+    public void ShowTurnCharacterIndicator()
     {
-        PortraitSprite = Resources.Load<Sprite>($"BattleSprites\\{characterName}");
-        CharacterName = characterName;
-        CurrentHealth = partyMemberStats.CurrentHealth;
-        MaxHealth = partyMemberStats.MaxHealth;
-        CurrentMagic = partyMemberStats.CurrentMagic;
-        MaxMagic = partyMemberStats.MaxMagic;
-        CurrentSpiritBarProgress = partyMemberStats.CurrentSpirit;
-        SpiritBarCount = partyMemberStats.CurrentSpiritBars;
-        MaxSpiritBars = partyMemberStats.MaxSpiritBars;
-
-        SetSpiritBarState(CurrentSpiritBarProgress, SpiritBarCount);
+        image_CharacterPortraitHighlighter.enabled = true;
     }
 
-    public void AddtoSpiritBar(int valueToAdd)
+    public void HidTurnCharacterIndicator()
     {
-        var newSpiritBarProgressValue = valueToAdd + CurrentSpiritBarProgress;
-        if(newSpiritBarProgressValue >= 100 && SpiritBarCount < MaxSpiritBars)
-        {
-            SpiritBarCount++;
-            CurrentSpiritBarProgress = newSpiritBarProgressValue - 100;
-        }
-        SetSpiritBarState(CurrentSpiritBarProgress, SpiritBarCount);
+        image_CharacterPortraitHighlighter.enabled = false;
     }
 
-    public void DecrementSpiritBar()
+    public void UpdateCurrentHealth(int newHealthValue)
     {
-        CurrentSpiritBarProgress = 0;
-        if(SpiritBarCount > 0)
+        if(newHealthValue < 0)
         {
-            SpiritBarCount--;
+            Console.WriteLine("Error: Cannot set health to less than 0");
+            newHealthValue = 0;
         }
-        SetSpiritBarState(CurrentSpiritBarProgress, SpiritBarCount);
+        else if(newHealthValue > MaxHP) {
+            Console.WriteLine("Error: Cannot set health to greater than characters max health");
+            newHealthValue = MaxHP;
+
+        }
+
+        textmeshpro_CurrentHealth.SetText(newHealthValue.ToString());
+        //set health text color if 0? 
     }
-    private void SetSpiritBarState(int currentSpriritBarProgress, int currentSpiritBarLevel)
+
+    public void UpdateCurrentSpirit(int newSpiritValue)
     {
-        if (currentSpriritBarProgress > 100)
+        if (newSpiritValue < 0)
         {
-            Console.WriteLine("Error: Cannot set spirit bar progress to greater than 100");
-            return;
-        }
-        if (currentSpiritBarLevel > MaxSpiritBars)
-        {
-            Console.WriteLine("Error: Cannot set spirit bar level to above max spirit bars");
-            return;
+            Console.WriteLine("Error: Cannot set spirit to less than 0");
+            newSpiritValue = 0;
         }
 
-        slider_SpiritBar.value = currentSpriritBarProgress;
+        else if (newSpiritValue > MaxSpirit)
+        {
+            Console.WriteLine("Error: Cannot set spirit to greater than characters max spirit");
+            newSpiritValue = MaxSpirit;
+        }
 
-        image_SpiritSliderFill.color = GetSpiritLevelColor(currentSpiritBarLevel);
-        image_SpiritSliderBackground.color = GetSpiritLevelColor(currentSpiritBarLevel - 1);
+        SetSpiritBarState(newSpiritValue);
+    }
 
-        if (currentSpiritBarLevel == 100 || currentSpiritBarLevel == 0)
+    public void UpdateCurrentMP(int newMPValue)
+    {
+        if (newMPValue < 0)
+        {
+            Console.WriteLine("Error: Cannot set MP to less than 0");
+            newMPValue = 0;
+        }
+
+        else if (newMPValue > MaxSpirit)
+        {
+            Console.WriteLine("Error: Cannot set MP to greater than characters max MP");
+            newMPValue = MaxMP;
+        }
+
+        textmeshpro_CurrentMagic.SetText(newMPValue.ToString());
+    }
+
+    private void SetSpiritBarState(int currentSpirit)
+    {
+        int currentSpiritBarCount = currentSpirit / 100;
+        var currentSpiritBarLevel = currentSpirit % 100;
+
+        slider_SpiritBar.value = currentSpirit;
+
+        image_SpiritSliderFill.color = GetSpiritLevelColor(currentSpiritBarCount);
+        image_SpiritSliderBackground.color = GetSpiritLevelColor(currentSpiritBarCount- 1);
+
+        if (currentSpiritBarLevel == 0)
         {
             image_SpiritSliderFill.enabled = false;
         }
@@ -146,7 +159,7 @@ public class CharacterStatusPanelController : MonoBehaviour
             image_SpiritSliderFill.enabled = true;
         }
 
-        if (currentSpiritBarLevel == MaxSpiritBars)
+        if (currentSpirit == MaxSpirit)
         {
             image_SpiritBarMaxHighlighter.enabled = true;
         }
@@ -154,6 +167,8 @@ public class CharacterStatusPanelController : MonoBehaviour
         {
             image_SpiritBarMaxHighlighter.enabled = false;
         }
+
+        textmeshpro_CurrentSpiritBars.SetText(currentSpiritBarCount.ToString());
     }
 
     private Color GetSpiritLevelColor(int spiritLevel)

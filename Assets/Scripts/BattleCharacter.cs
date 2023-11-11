@@ -33,6 +33,9 @@ public class BattleCharacter : MonoBehaviour
     public AnimatorOverrideController AnimatorOverride;
     public GameObject CharacterModel;
 
+    public event Action<int> onCharacterHealthChange;
+    public event Action onCharacterDowned;
+
     public void SetupCharacter(
         Guid characterId, 
         string name, 
@@ -149,9 +152,12 @@ public class BattleCharacter : MonoBehaviour
         {
             Downed = true;
             //TODO: Play downed animation
+            onCharacterDowned?.Invoke();
         }
-
-        Indicator.SetIndicatorColor((decimal)CurrentHealth, (decimal)MaxHealth);
+        else {
+            Indicator.SetIndicatorColor((decimal)CurrentHealth, (decimal)MaxHealth);
+            onCharacterHealthChange?.Invoke(CurrentHealth);
+        }
     }
 
     public void ApplyPreTurnStatusEffects()

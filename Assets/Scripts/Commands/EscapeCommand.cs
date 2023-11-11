@@ -2,18 +2,18 @@ using UnityEngine;
 
 public class EscapeCommand : ICommand
 {
-    private int _escapeChange;
+    private int _escapeChance;
     private BattleStateManager _battleStateManager;
 
-    public EscapeCommand(int escapeChange, BattleStateManager battleStateManager)
+    public EscapeCommand(BattleStateManager battleStateManager)
     {
-        _escapeChange = escapeChange;
+        _escapeChance = battleStateManager.getEscapeChance();
         _battleStateManager = battleStateManager;
     }
 
     public void Execute()
     {
-        if (CalculateEscapeSuccess(_escapeChange))
+        if (CalculateEscapeSuccess(_escapeChance))
         {
             Debug.Log("Escaped successfully");
             _battleStateManager.Flee();
@@ -24,6 +24,6 @@ public class EscapeCommand : ICommand
 
     private bool CalculateEscapeSuccess(int areaEscapeChance)
     {
-        return Random.Range(0, 100) > _escapeChange;
+        return Random.Range(0, 100) > _escapeChance;
     }
 }

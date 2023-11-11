@@ -10,13 +10,11 @@ public class BattleStateManager : MonoBehaviour
 {
     public GameObject PlayerPartyCanvas;
     public GameObject PlayerActionCanvas;
-    public GameObject PlayerCenterCharacterStatusPanel;
-    public GameObject PlayerLeftCharacterStatusPanel;
-    public GameObject PlayerRightCharacterStatusPanel;
+
     public BattleCamera Camera;
 
     public BattleCharacterSpawner CharacterSpawner;
-    public int EscapeSuccessChance;
+    public int EscapeRate;
     public bool IsBossEncounter;
 
     public Guid ActingCharacterId;
@@ -38,21 +36,15 @@ public class BattleStateManager : MonoBehaviour
         var _playerParty = CreateParty();
         var _enemies = CreateEnemyParty();
         IsBossEncounter = false;
+        EscapeRate = 25;
 
-        var playerPartyStatusPanels = new List<CharacterStatusPanelController>
-        {
-            PlayerLeftCharacterStatusPanel.GetComponent<CharacterStatusPanelController>(),
-            PlayerCenterCharacterStatusPanel.GetComponent<CharacterStatusPanelController>(),
-            PlayerRightCharacterStatusPanel.GetComponent<CharacterStatusPanelController>(),
-        };
-
-        CharacterSpawner.SetupCharacters(_playerParty, playerPartyStatusPanels, _enemies);
-        _playerCharacters = CharacterSpawner.PlayerCharacters;
-        _enemyCharacters = CharacterSpawner.EnemyCharacters;
+        _playerCharacters = CharacterSpawner.SetupPartyCharacters(_playerParty);
+        _enemyCharacters = CharacterSpawner.SetupEnemyCharacters(_enemies);
 
         var characterSpeeds = _playerCharacters.ToDictionary(x => x.Key, x => x.Value.Speed);
         var enemeySpeeds = _enemyCharacters.ToDictionary(x => x.Key, x => x.Value.Speed);
         characterSpeeds.AddRange(enemeySpeeds);
+
         _turnSelector = new TurnSelector(characterSpeeds);
 
         CurrentState = IntroState;
@@ -91,6 +83,11 @@ public class BattleStateManager : MonoBehaviour
         {
             SwitchBattleState(EnemyTurnState);
         }
+    }
+
+    public int getEscapeChance()
+    {
+        return EscapeRate;
     }
 
     public void Flee()
@@ -168,8 +165,7 @@ public class BattleStateManager : MonoBehaviour
                     CurrentMagic = 0,
                     MaxMagic = 10,
                     CurrentSpirit = 0,
-                    CurrentSpiritBars = 0,
-                    MaxSpiritBars = 1,
+                    MaxSpirit = 100,
                 },
                 Element = ElementAlignment.Fire,
             },
@@ -188,8 +184,7 @@ public class BattleStateManager : MonoBehaviour
                     CurrentMagic = 10,
                     MaxMagic = 10,
                     CurrentSpirit = 35,
-                    CurrentSpiritBars = 1,
-                    MaxSpiritBars = 1,
+                    MaxSpirit = 200,
                 },
                 Element = ElementAlignment.Darkness,
             },
@@ -209,8 +204,7 @@ public class BattleStateManager : MonoBehaviour
                     CurrentMagic = 10,
                     MaxMagic = 10,
                     CurrentSpirit = 0,
-                    CurrentSpiritBars = 1,
-                    MaxSpiritBars = 1,
+                    MaxSpirit = 100,
                 },
                 Element = ElementAlignment.Water,
 
