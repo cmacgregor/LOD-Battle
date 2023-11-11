@@ -85,7 +85,7 @@ public class BattleStateManager : MonoBehaviour
         }
     }
 
-    public int getEscapeChance()
+    public int GetEscapeChance()
     {
         return EscapeRate;
     }

@@ -67,5 +67,4 @@ public class BattlePlayerTurnState : BattleBaseState
         //call escape command
         _escapeCommand.Execute();
     }
-
 }

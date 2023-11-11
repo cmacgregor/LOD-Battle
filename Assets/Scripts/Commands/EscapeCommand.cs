@@ -7,7 +7,7 @@ public class EscapeCommand : ICommand
 
     public EscapeCommand(BattleStateManager battleStateManager)
     {
-        _escapeChance = battleStateManager.getEscapeChance();
+        _escapeChance = battleStateManager.GetEscapeChance();
         _battleStateManager = battleStateManager;
     }
 
