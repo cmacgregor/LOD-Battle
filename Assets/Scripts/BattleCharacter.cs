@@ -141,6 +141,7 @@ public class BattleCharacter : MonoBehaviour
         }
 
         Indicator.SetIndicatorColor((decimal)CurrentHealth, (decimal)MaxHealth);
+        onCharacterHealthChange?.Invoke(CurrentHealth);
         //TODO: Play defense animation
     }
 
