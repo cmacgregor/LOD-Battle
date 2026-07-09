@@ -92,64 +92,47 @@ public class CharacterStatusPanelController : MonoBehaviour
 
     public void UpdateCurrentHealth(int newHealthValue)
     {
-        if(newHealthValue < 0)
+        var clampedHealthValue = StatClamp.Clamp(newHealthValue, MaxHP);
+        if (clampedHealthValue != newHealthValue)
         {
-            Debug.LogWarning("Cannot set health to less than 0");
-            newHealthValue = 0;
-        }
-        else if(newHealthValue > MaxHP) {
-            Debug.LogWarning("Cannot set health to greater than character's max health");
-            newHealthValue = MaxHP;
-
+            Debug.LogWarning($"Health value {newHealthValue} out of range, clamped to {clampedHealthValue}");
         }
 
-        textmeshpro_CurrentHealth.SetText(newHealthValue.ToString());
+        textmeshpro_CurrentHealth.SetText(clampedHealthValue.ToString());
         //set health text color if 0?
     }
 
     public void UpdateCurrentSpirit(int newSpiritValue)
     {
-        if (newSpiritValue < 0)
+        var clampedSpiritValue = StatClamp.Clamp(newSpiritValue, MaxSpirit);
+        if (clampedSpiritValue != newSpiritValue)
         {
-            Debug.LogWarning("Cannot set spirit to less than 0");
-            newSpiritValue = 0;
+            Debug.LogWarning($"Spirit value {newSpiritValue} out of range, clamped to {clampedSpiritValue}");
         }
 
-        else if (newSpiritValue > MaxSpirit)
-        {
-            Debug.LogWarning("Cannot set spirit to greater than character's max spirit");
-            newSpiritValue = MaxSpirit;
-        }
-
-        SetSpiritBarState(newSpiritValue);
+        SetSpiritBarState(clampedSpiritValue);
     }
 
     public void UpdateCurrentMP(int newMPValue)
     {
-        if (newMPValue < 0)
+        var clampedMPValue = StatClamp.Clamp(newMPValue, MaxMP);
+        if (clampedMPValue != newMPValue)
         {
-            Debug.LogWarning("Cannot set MP to less than 0");
-            newMPValue = 0;
+            Debug.LogWarning($"MP value {newMPValue} out of range, clamped to {clampedMPValue}");
         }
 
-        else if (newMPValue > MaxMP)
-        {
-            Debug.LogWarning("Cannot set MP to greater than character's max MP");
-            newMPValue = MaxMP;
-        }
-
-        textmeshpro_CurrentMagic.SetText(newMPValue.ToString());
+        textmeshpro_CurrentMagic.SetText(clampedMPValue.ToString());
     }
 
     private void SetSpiritBarState(int currentSpirit)
     {
-        int currentSpiritBarCount = currentSpirit / 100;
-        var currentSpiritBarLevel = currentSpirit % 100;
+        int currentSpiritBarCount = SpiritBarMath.GetBarCount(currentSpirit);
+        var currentSpiritBarLevel = SpiritBarMath.GetBarLevel(currentSpirit);
 
         slider_SpiritBar.value = currentSpiritBarLevel;
 
-        image_SpiritSliderFill.color = GetSpiritLevelColor(currentSpiritBarCount);
-        image_SpiritSliderBackground.color = GetSpiritLevelColor(currentSpiritBarCount- 1);
+        image_SpiritSliderFill.color = SpiritBarMath.GetBarColor(currentSpiritBarCount);
+        image_SpiritSliderBackground.color = SpiritBarMath.GetBarColor(currentSpiritBarCount - 1);
 
         if (currentSpiritBarLevel == 0)
         {
@@ -170,29 +153,5 @@ public class CharacterStatusPanelController : MonoBehaviour
         }
 
         textmeshpro_CurrentSpiritBars.SetText(currentSpiritBarCount.ToString());
-    }
-
-    private Color GetSpiritLevelColor(int spiritLevel)
-    {
-        var returnColor = Color.clear;
-        switch(spiritLevel){
-            case 1:
-                returnColor = Color.blue;
-                break;
-            case 2: 
-                returnColor = Color.green;
-                break;
-            case 3:
-                returnColor = Color.yellow; 
-                break;
-            case 4:
-                returnColor = new Color(1f, 165f / 255f, 0f); //orange
-                break;
-            case 5:
-                returnColor = Color.red;
-                break;
-        }
-
-        return returnColor; 
     }
 }

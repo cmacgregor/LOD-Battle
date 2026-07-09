@@ -2,9 +2,6 @@ using UnityEngine;
 
 public class CharacterSelectionIndicator : MonoBehaviour
 {
-    public const decimal HIGH_HEALTH_PERCENTAGE = 2m / 3m;
-    public const decimal LOW_HEALTH_PERCENTAGE = 1m / 3m;
-
     public void Show()
     {
         this.gameObject.SetActive(true);
@@ -15,22 +12,19 @@ public class CharacterSelectionIndicator : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
-
     public void SetIndicatorColor(decimal currentHealth, decimal maxHealth)
     {
-        var healthPercentage = currentHealth / maxHealth;
-        if (healthPercentage >= CharacterSelectionIndicator.HIGH_HEALTH_PERCENTAGE)
+        switch (HealthTierCalculator.GetTier(currentHealth, maxHealth))
         {
-            SetColorToHighHealthColor();
-        }
-        else if (healthPercentage < CharacterSelectionIndicator.HIGH_HEALTH_PERCENTAGE
-            && healthPercentage > CharacterSelectionIndicator.LOW_HEALTH_PERCENTAGE)
-        {
-            SetColorToMidHealthColor();
-        }
-        else if (healthPercentage <= CharacterSelectionIndicator.LOW_HEALTH_PERCENTAGE)
-        {
-            SetColorToLowHealthColor();
+            case HealthTier.High:
+                SetColorToHighHealthColor();
+                break;
+            case HealthTier.Mid:
+                SetColorToMidHealthColor();
+                break;
+            case HealthTier.Low:
+                SetColorToLowHealthColor();
+                break;
         }
     }
 
