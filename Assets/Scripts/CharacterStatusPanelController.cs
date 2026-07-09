@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -69,6 +68,8 @@ public class CharacterStatusPanelController : MonoBehaviour
         textmeshpro_CurrentMagic.SetText(character.CurrentMagic.ToString());
         textmeshpro_MaxMagic.SetText(character.MaxMagic.ToString());
 
+        MaxHP = character.MaxHealth;
+        MaxMP = character.MaxMagic;
         MaxSpirit = character.MaxSpirit;
 
         SetSpiritBarState(character.CurrentSpirit);
@@ -93,30 +94,30 @@ public class CharacterStatusPanelController : MonoBehaviour
     {
         if(newHealthValue < 0)
         {
-            Console.WriteLine("Error: Cannot set health to less than 0");
+            Debug.LogWarning("Cannot set health to less than 0");
             newHealthValue = 0;
         }
         else if(newHealthValue > MaxHP) {
-            Console.WriteLine("Error: Cannot set health to greater than characters max health");
+            Debug.LogWarning("Cannot set health to greater than character's max health");
             newHealthValue = MaxHP;
 
         }
 
         textmeshpro_CurrentHealth.SetText(newHealthValue.ToString());
-        //set health text color if 0? 
+        //set health text color if 0?
     }
 
     public void UpdateCurrentSpirit(int newSpiritValue)
     {
         if (newSpiritValue < 0)
         {
-            Console.WriteLine("Error: Cannot set spirit to less than 0");
+            Debug.LogWarning("Cannot set spirit to less than 0");
             newSpiritValue = 0;
         }
 
         else if (newSpiritValue > MaxSpirit)
         {
-            Console.WriteLine("Error: Cannot set spirit to greater than characters max spirit");
+            Debug.LogWarning("Cannot set spirit to greater than character's max spirit");
             newSpiritValue = MaxSpirit;
         }
 
@@ -127,13 +128,13 @@ public class CharacterStatusPanelController : MonoBehaviour
     {
         if (newMPValue < 0)
         {
-            Console.WriteLine("Error: Cannot set MP to less than 0");
+            Debug.LogWarning("Cannot set MP to less than 0");
             newMPValue = 0;
         }
 
-        else if (newMPValue > MaxSpirit)
+        else if (newMPValue > MaxMP)
         {
-            Console.WriteLine("Error: Cannot set MP to greater than characters max MP");
+            Debug.LogWarning("Cannot set MP to greater than character's max MP");
             newMPValue = MaxMP;
         }
 
@@ -145,7 +146,7 @@ public class CharacterStatusPanelController : MonoBehaviour
         int currentSpiritBarCount = currentSpirit / 100;
         var currentSpiritBarLevel = currentSpirit % 100;
 
-        slider_SpiritBar.value = currentSpirit;
+        slider_SpiritBar.value = currentSpiritBarLevel;
 
         image_SpiritSliderFill.color = GetSpiritLevelColor(currentSpiritBarCount);
         image_SpiritSliderBackground.color = GetSpiritLevelColor(currentSpiritBarCount- 1);
@@ -154,7 +155,7 @@ public class CharacterStatusPanelController : MonoBehaviour
         {
             image_SpiritSliderFill.enabled = false;
         }
-        else if (!slider_SpiritBar.enabled)
+        else if (!image_SpiritSliderFill.enabled)
         {
             image_SpiritSliderFill.enabled = true;
         }
@@ -185,7 +186,7 @@ public class CharacterStatusPanelController : MonoBehaviour
                 returnColor = Color.yellow; 
                 break;
             case 4:
-                returnColor = Color.HSVToRGB(255, 165, 0); //orange
+                returnColor = new Color(1f, 165f / 255f, 0f); //orange
                 break;
             case 5:
                 returnColor = Color.red;
